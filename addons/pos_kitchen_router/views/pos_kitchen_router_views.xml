@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- 1. Inherit product form untuk tambahin field kitchen_station -->
+        <record id="product_template_kitchen_station_form" model="ir.ui.view">
+            <field name="name">product.template.kitchen.station.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='general']" position="inside">
+                    <group>
+                        <field name="kitchen_station"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- 2. Tree view untuk pos.kitchen.order -->
+        <record id="pos_kitchen_order_tree" model="ir.ui.view">
+            <field name="name">pos.kitchen.order.tree</field>
+            <field name="model">pos.kitchen.order</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="order_id"/>
+                    <field name="station"/>
+                    <field name="session_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- 3. Form view untuk pos.kitchen.order -->
+        <record id="pos_kitchen_order_form" model="ir.ui.view">
+            <field name="name">pos.kitchen.order.form</field>
+            <field name="model">pos.kitchen.order</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="order_id"/>
+                            <field name="station"/>
+                            <field name="session_id"/>
+                        </group>
+                        <separator string="Lines"/>
+                        <field name="line_ids">
+                            <tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="qty"/>
+                                <field name="note"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- 4. Action untuk pos.kitchen.order -->
+        <record id="pos_kitchen_order_action" model="ir.actions.act_window">
+            <field name="name">Kitchen Orders</field>
+            <field name="res_model">pos.kitchen.order</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- 5. Menu item untuk Kitchen Orders -->
+        <menuitem 
+            id="pos_kitchen_order_menu" 
+            name="Kitchen Orders" 
+            parent="point_of_sale.pos_menu"
+            action="pos_kitchen_order_action"/>
+
+    </data>
+</odoo>
